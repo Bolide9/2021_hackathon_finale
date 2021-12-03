@@ -24,6 +24,12 @@ class _ResultScreenState extends State<ResultScreen> {
     questionsLen = _questionService.getLen;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _questionService.clearRating();
+  }
+
   Future<void> _goBack() => Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -38,6 +44,11 @@ class _ResultScreenState extends State<ResultScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'images/kybok.png',
+              height: 100,
+            ),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(

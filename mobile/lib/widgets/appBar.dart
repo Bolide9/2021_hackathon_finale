@@ -67,7 +67,7 @@ class MainAppBar extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: InkWell(
               splashColor: Colors.grey,
-              onTap: () => onChatPressed,
+              onTap: onChatPressed,
               borderRadius: BorderRadius.circular(25.0),
               child: Image.asset(
                 'images/chat.png',

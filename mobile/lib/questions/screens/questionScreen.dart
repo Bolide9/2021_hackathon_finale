@@ -51,9 +51,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
       body: Center(
         child: Column(
           children: [
-            Text(
-              questions[currentIndex - 1].questinText,
-              style: interFont(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                questions[currentIndex - 1].questinText,
+                style: interFont(),
+                textAlign: TextAlign.center,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -95,7 +99,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     });
                   } else {
                     _questionService.checkCorrectAnswer(currentIndex - 1, selectedIndex!, questions[currentIndex - 1].answersVariants[selectedIndex!]);
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ResultScreen(result: _questionService.getRating)), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ResultScreen(result: QuestionService.getRating)), (route) => false);
                     Future.delayed(
                       Duration(seconds: 5),
                       () {
