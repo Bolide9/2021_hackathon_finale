@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import * as validator from 'express-validator';
 import UserModel from '../../models/user';
-import { authenticate } from '../../../utils/auth';
+import { authenticate } from '../../util';
 import type { Request, Response } from 'express';
 
 export default [
@@ -34,11 +34,6 @@ export default [
     });
 
     res.cookie('access_token', authenticate({
-      email: user.email,
-      username: user.username,
-    }), { maxAge: 7 * 24 * 60 * 60 * 1000 });
-
-    res.cookie('test', authenticate({
       email: user.email,
       username: user.username,
     }), { maxAge: 7 * 24 * 60 * 60 * 1000 });

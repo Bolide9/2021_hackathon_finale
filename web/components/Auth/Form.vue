@@ -132,7 +132,7 @@ export default Vue.extend({
   }
 }
 .error {
-  color: #FF202D;;
+  color: #FF202D;
   font-size: 13px;
   line-height: 20px;
   margin-top: 8px;

@@ -30,6 +30,7 @@
       "@nuxtjs/axios",
       "@pinia/nuxt",
       "@types/node",
+      "@types/cookie-parser",
       "@types/bcryptjs",
       "@types/js-cookie",
       "@types/jsonwebtoken",

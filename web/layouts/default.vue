@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <Header @auth="openAuth" />
-    <div class="container">
+    <div class="container flex-1">
       <Nuxt />
     </div>
     <Modal @click-outside="closeAuth">
@@ -24,7 +24,7 @@ import Footer from '~/components/Footer.vue';
 import Auth from '~/components/Auth/index.vue';
 
 export default Vue.extend({
-  middleware: ['auth'],
+  middleware: ['ssrInit'],
 
   data: () => ({
     isAuthVisible: false,
@@ -151,8 +151,15 @@ button {
 
 <style lang="scss" scoped>
 .page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
   overflow: hidden;
-  padding-bottom: 20px;
+
+  > * {
+    width: 100%;
+  }
 }
 .auth-modal {
   position: relative;
