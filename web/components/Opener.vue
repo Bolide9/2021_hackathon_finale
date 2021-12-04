@@ -28,12 +28,18 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@import "assets/mixins";
+
 .opener {
   position: relative;
   cursor: pointer;
   padding: 36px 0;
   border-top: 1px solid #1F242C;
   border-bottom: 1px solid #1F242C;
+
+  @include media-breakpoint-down(sm) {
+    padding: 20px 0;
+  }
 
   & + & {
     border-top: 0;
@@ -44,6 +50,11 @@ export default Vue.extend({
   font-size: 24px;
   line-height: 36px;
   font-weight: 500;
+
+  @include media-breakpoint-down(sm) {
+    font-size: 18px;
+    line-height: 24px;
+  }
 }
 
 .desc {
@@ -70,6 +81,10 @@ export default Vue.extend({
   width: 24px;
   height: 24px;
   transition: transform 0.2s;
+
+  @include media-breakpoint-down(sm) {
+    top: 20px;
+  }
 
   &_active {
     transform: rotate(45deg);

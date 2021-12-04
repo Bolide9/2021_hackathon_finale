@@ -15,15 +15,27 @@
           </div>
           <div class="nav-wrapper flex-1" :class="{ 'nav-wrapper_active': isMobileMenuVisible }">
             <nav class="nav-links">
-              <NuxtLink v-for="link in links" :key="link.label" :to="link.to" class="link">
+              <NuxtLink
+                v-for="link in links"
+                :key="link.label"
+                :to="link.to"
+                class="link"
+                @click.native="isMobileMenuVisible=false"
+              >
                 {{ link.label }}
               </NuxtLink>
             </nav>
             <div class="user d-none d-md-flex flex-none">
-              <button v-if="fio" @click="logout">{{ fio }}</button>
+              <NuxtLink v-if="fio" :to="{ name: 'profile' }">{{ fio }}</NuxtLink>
               <button v-else @click="$emit('auth')">Войти</button>
             </div>
-            <Button max-width class="d-md-none" :to="{ name: 'login' }">
+            <Button
+              v-if="!fio"
+              max-width
+              class="d-md-none"
+              :to="{ name: 'login' }"
+              @click.native="isMobileMenuVisible=false"
+            >
               Войти
             </Button>
           </div>
@@ -35,8 +47,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Cookie from 'js-cookie';
-import { mapState, mapActions } from 'pinia';
+import { mapState } from 'pinia';
 import { useUser } from '~/store/user';
 import Button from '~/components/Button.vue';
 import LogoWithName from '~/components/Logo/WithName.vue';
@@ -48,8 +59,11 @@ const LINKS = [{
   label: 'Обучение',
   to: { name: 'index', hash: '#learn' },
 }, {
+  label: 'Форум',
+  to: { name: 'forum' },
+}, {
   label: 'База знаний',
-  to: { name: 'index' },
+  to: { name: 'basics' },
 }];
 
 export default Vue.extend({
@@ -60,14 +74,6 @@ export default Vue.extend({
 
   computed: {
     ...mapState(useUser, ['fio']),
-  },
-
-  methods: {
-    ...mapActions(useUser, { resetUser: 'reset' }),
-    logout() {
-      Cookie.remove('access_token');
-      this.resetUser();
-    },
   },
 
   components: {
@@ -155,7 +161,7 @@ export default Vue.extend({
   }
 }
 .user {
-  button {
+  a, button {
     font-size: 16px;
     line-height: 24px;
     font-weight: 500;

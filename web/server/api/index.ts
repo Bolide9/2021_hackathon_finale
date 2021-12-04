@@ -8,9 +8,11 @@ import userDataMiddleware from './middleware/userData';
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/ddb')
-  .then(() => console.log('db connection opened'))
-  .catch((e) => console.error('db connection failed', e));
+if (process.env.MONGO_URL) {
+  mongoose.connect(process.env.MONGO_URL)
+    .then(() => console.log('db connection opened'))
+    .catch((e) => console.error('db connection failed', e));
+}
 
 Object.keys(mongoose.connection.models).forEach((key) => {
   delete mongoose.connection.models[key];

@@ -174,7 +174,7 @@ button {
 .auth-modal {
   position: relative;
   padding-top: 36px;
-  width: 100%;
-  max-width: 464px;
+  width: 464px;
+  max-width: calc(100vw - 40px);
 }
 </style>

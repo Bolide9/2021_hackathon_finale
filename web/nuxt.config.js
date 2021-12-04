@@ -1,4 +1,7 @@
 export default {
+  publicRuntimeConfig: {
+    EXE_URL: process.env.EXE_URL,
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'd-comp',

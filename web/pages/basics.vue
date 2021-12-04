@@ -1,17 +1,13 @@
 <template>
-  <div class="profile">
-    <Title class="title">Профиль</Title>
+  <div class="basics">
+    <Title class="title">База знаний</Title>
     <div class="wrapper d-flex">
       <div class="menu">
         <div v-for="item in menuItems" :key="item.title" class="menu__item">
-          <NuxtLink :to="{ name: `profile${item.sub}` }" class="menu__link">
-            <component :is="item.icon" class="menu__icon" />
+          <NuxtLink :to="{ name: `basics${item.sub}` }" class="menu__link">
             {{ item.title }}
           </NuxtLink>
         </div>
-        <button class="logout" @click="logout">
-          Выйти
-        </button>
       </div>
       <div class="content flex-1">
         <NuxtChild />
@@ -22,59 +18,27 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Cookie from 'js-cookie';
-import { mapActions } from 'pinia';
-import { useUser } from '~/store/user';
 import Title from '~/components/Title.vue';
-import IconCup from '~/components/Icon/Cup.vue';
-import IconUser from '~/components/Icon/User.vue';
-import IconChat from '~/components/Icon/Chat.vue';
-import IconCertificate from '~/components/Icon/Certificate.vue';
 
 const MENU_ITEMS = [{
-  title: 'Профиль',
+  title: 'Управление',
   sub: '',
-  icon: 'IconUser',
 }, {
-  title: 'Достижения',
-  sub: '-achievements',
-  icon: 'IconCup',
-}, {
-  title: 'Сертификат',
-  sub: '-certificate',
-  icon: 'IconCertificate',
-}, {
-  title: 'Связь с ментором',
-  sub: '-chat',
-  icon: 'IconChat',
+  title: 'Механика',
+  sub: '-mechanics',
 }];
 
 export default Vue.extend({
-  middleware: ['auth'],
-
   data: () => ({
     menuItems: MENU_ITEMS,
   }),
 
   head: () => ({
-    title: 'Профиль | Colibri',
+    title: 'База знаний | Colibri',
   }),
-
-  methods: {
-    ...mapActions(useUser, { resetUser: 'reset' }),
-    logout() {
-      Cookie.remove('access_token');
-      this.resetUser();
-      this.$router.push({ name: 'index' });
-    },
-  },
 
   components: {
     Title,
-    IconCup,
-    IconUser,
-    IconChat,
-    IconCertificate,
   },
 });
 </script>
@@ -84,7 +48,7 @@ export default Vue.extend({
 .wrapper {
   justify-content: space-between;
 }
-.profile {
+.basics {
   padding-top: 30px;
 }
 .title {
@@ -111,12 +75,6 @@ export default Vue.extend({
     &:hover {
       opacity: 0.8;
     }
-  }
-
-  &__icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
   }
 
   &__item {

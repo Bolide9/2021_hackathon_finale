@@ -1,7 +1,8 @@
 <template>
   <component
-    :is="to ? 'NuxtLink' : 'button'"
+    :is="to ? 'NuxtLink' : href ? 'a' : 'button'"
     :to="to"
+    :href="href"
     class="button"
     :class="{ button_max: maxWidth }"
     v-on="$listeners"
@@ -22,6 +23,10 @@ export default Vue.extend({
     },
     to: {
       type: Object as PropType<{ name: 'index' | 'register' | 'login' | 'learn' }>,
+      default: null,
+    },
+    href: {
+      type: String,
       default: null,
     },
   },
@@ -57,6 +62,7 @@ export default Vue.extend({
   }
 
   &_max {
+    display: block;
     width: 100%;
   }
 }

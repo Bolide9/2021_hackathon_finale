@@ -18,12 +18,29 @@
       </div>
       <button class="banner__pp" @click="ppScroll" />
     </div>
+    <div class="video">
+      <Title small class="video__title">Почему обучение так важно?</Title>
+      <div class="video__yt">
+        <iframe
+          src="https://www.youtube.com/embed/pnKpkTSlC2I"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        />
+      </div>
+    </div>
     <div ref="content" class="content">
-      <Title class="content__title">
+      <Title small class="content__title">
         Программа обучения
       </Title>
       <div class="content__blocks">
-        <Opener v-for="block in blocks" :key="block.title" :title="block.title" :desc="block.desc" />
+        <Opener
+          v-for="(block, i) in blocks"
+          :key="block.title"
+          :title="`${i + 1}. ${block.title}`"
+          :desc="block.desc"
+        />
       </div>
       <div class="content__learn">
         <Button :to="{ name: 'learn' }">Начать обучение</Button>
@@ -41,13 +58,13 @@ import Glow from '~/components/Glow.vue';
 
 const BLOCKS = [{
   title: 'Обучение',
-  desc: 'Описание',
+  desc: 'Пройди теорию и практику, научись управляться с дроном',
 }, {
   title: 'Практика',
-  desc: 'Описание',
+  desc: 'Отточи свои навыки в максимально приближенном к реальности тренажере',
 }, {
   title: 'Экзамен',
-  desc: 'Описание',
+  desc: 'Пройди летный экзамен и получи лицензию, подтверждающую вашу компетентность в управлении реальных БПЛА',
 }];
 
 export default Vue.extend({
@@ -183,18 +200,46 @@ export default Vue.extend({
   }
 }
 
+.video {
+  display: flex;
+  justify-content: space-between;
+  padding: 140px 0 80px;
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+    padding: 40px 0;
+    min-height: 0;
+  }
+
+  &__title {
+    flex: 1;
+
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__yt {
+    flex: 1;
+
+    iframe {
+      width: 100%;
+    }
+  }
+}
+
 .content {
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   @include media-breakpoint-up(md) {
-    padding: 60px 0;
+    padding: 60px 0 40px;
     min-height: calc(100vh - 20px);
   }
 
   @include media-breakpoint-down(sm) {
-    padding: 20px 0 30px;
+    padding: 40px 0;
   }
 
   &__title {
