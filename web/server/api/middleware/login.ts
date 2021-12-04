@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import * as validator from 'express-validator';
 import UserModel from '../../models/user';
-import { authenticate } from '../../util';
+import { authenticate, getUserPublicData } from '../../util';
 import type { Request, Response } from 'express';
 
 export default [
@@ -40,10 +40,7 @@ export default [
 
     return res.json({
       status: 'ok',
-      data: {
-        email: user.email,
-        username: user.username,
-      },
+      data: getUserPublicData(user),
     });
   },
 ];

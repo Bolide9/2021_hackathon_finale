@@ -20,7 +20,7 @@
               </NuxtLink>
             </nav>
             <div class="user d-none d-md-flex flex-none">
-              <button v-if="username" @click="logout">{{ username }}</button>
+              <button v-if="fio" @click="logout">{{ fio }}</button>
               <button v-else @click="$emit('auth')">Войти</button>
             </div>
             <Button max-width class="d-md-none" :to="{ name: 'login' }">
@@ -59,7 +59,7 @@ export default Vue.extend({
   }),
 
   computed: {
-    ...mapState(useUser, ['username']),
+    ...mapState(useUser, ['fio']),
   },
 
   methods: {

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="glow">
+      <Glow />
+    </div>
     <div class="banner">
       <div class="banner__content">
         <Title h1>Онлайн-обучение управлению дронами</Title>
@@ -7,7 +10,7 @@
           Пройди симуляцию дронов, изучи теорию и получи сертификат
         </div>
         <div class="d-flex">
-          <Button :to="{ name: 'learn' }">Обучение</Button>
+          <Button @click="ppScroll">Обучение</Button>
         </div>
       </div>
       <div class="banner__drone">
@@ -34,6 +37,7 @@ import Vue from 'vue';
 import Title from '~/components/Title.vue';
 import Button from '~/components/Button.vue';
 import Opener from '~/components/Opener.vue';
+import Glow from '~/components/Glow.vue';
 
 const BLOCKS = [{
   title: 'Обучение',
@@ -79,6 +83,7 @@ export default Vue.extend({
   },
 
   components: {
+    Glow,
     Title,
     Opener,
     Button,
@@ -87,8 +92,21 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/mixins';
+@import 'assets/mixins';
 
+.glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: -1;
+
+  ::v-deep svg {
+    width: 100%;
+    height: 100%;
+  }
+}
 .banner {
   position: relative;
   display: flex;

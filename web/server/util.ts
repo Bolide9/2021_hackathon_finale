@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import UserModel from './models/user';
+import UserModel, { userPublicFields } from './models/user';
 import type { Request } from 'express';
 import type { User } from './models/user';
 import type { HydratedDocument } from 'mongoose';
@@ -24,3 +24,10 @@ export const getUser = async (req: Request): Promise<HydratedDocument<User> | nu
   const { email } = parseToken(req.cookies.access_token) || {};
   return (email && await UserModel.findByEmail(email)) || null;
 };
+
+export const getUserPublicData = (user: HydratedDocument<User>) => (
+  userPublicFields.reduce<Partial<User>>((acc, key) => {
+    acc[key] = user[key] as ANY;
+    return acc;
+  }, {})
+);

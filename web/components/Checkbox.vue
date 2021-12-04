@@ -20,17 +20,15 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+  model: {
+    prop: 'checked',
+    event: 'change',
+  },
+
   props: {
     checked: {
       type: Boolean,
       default: false,
-    },
-  },
-  data: () => ({ a: false }),
-  methods: {
-    asd(e: ANY) {
-      this.a = !this.a;
-      console.log(e.target);
     },
   },
 });

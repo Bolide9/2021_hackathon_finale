@@ -10,7 +10,7 @@
         :placeholder="field.placeholder"
         @input="onFieldChange(field.name, $event)"
       />
-      <div v-if="computedErrors[field.name]" class="error">
+      <div v-if="computedErrors[field.name] && computedErrors[field.name] !== unknownError" class="error">
         {{ computedErrors[field.name] }}
       </div>
     </div>
@@ -22,7 +22,7 @@
         <slot name="button-label" />
       </Button>
     </div>
-    <div v-if="computedErrors.global" class="error">
+    <div v-if="computedErrors.global && computedErrors.global !== unknownError" class="error">
       {{ computedErrors.global }}
     </div>
   </form>
@@ -39,6 +39,9 @@ const ERRORS: Record<string, Record<string, string>> = {
     format: 'Неверный формат почты',
     exists: 'Аккаунт с такой почтой уже зарегистрирован',
   },
+  fio: {
+    format: 'Неверный формат',
+  },
   username: {
     length: 'Логин должен состоять хотя бы из трех символов',
   },
@@ -54,6 +57,10 @@ const ERRORS: Record<string, Record<string, string>> = {
 
 export default Vue.extend({
   props: {
+    eulaChecked: {
+      type: Boolean,
+      default: true,
+    },
     fields: {
       type: Array as PropType<{
         name: string;
@@ -74,6 +81,7 @@ export default Vue.extend({
 
   data() {
     return {
+      unknownError: '__unknown',
       ignoreErrors: {} as Record<string, boolean>,
       errorsDescriptions: ERRORS,
       userData: this.fields.reduce<Record<string, string>>((acc, cur) => {
@@ -85,13 +93,13 @@ export default Vue.extend({
 
   computed: {
     isReady(): boolean {
-      return Object.values(this.userData).every(Boolean);
+      return this.eulaChecked && Object.values(this.userData).every(Boolean);
     },
 
     computedErrors() {
       return !this.errors ? {} : Object.entries(this.errors).reduce<Record<string, string>>((acc, [key, err]) => {
         if (!this.ignoreErrors[key]) {
-          acc[key] = ERRORS[key][err.msg];
+          acc[key] = ERRORS[key][err.msg] || this.unknownError;
         }
         return acc;
       }, {});

@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import * as validator from 'express-validator';
 import UserModel from '../../models/user';
+import { getUserPublicData } from '../../util';
 import type { Request, Response } from 'express';
 
 export default [
@@ -8,8 +9,12 @@ export default [
     if (await UserModel.findByEmail(email)) {
       return Promise.reject('exists');
     }
-    return null;
+    return true;
   }),
+  validator.body('fio').trim().custom((fio = '') => {
+    const parts = fio.split(' ');
+    return parts.length < 2 || parts.some((part: string) => part.length < 3) ? Promise.reject('format') : true;
+  }).escape(),
   validator.body('username').trim().isLength({ min: 3 }).withMessage('length').escape(),
   validator.body('password').trim().isLength({ min: 4 }).withMessage('length').escape(),
   async (req: Request, res: Response) => {
@@ -22,6 +27,7 @@ export default [
     }
 
     const model = new UserModel({
+      fio: req.body.fio,
       email: req.body.email,
       username: req.body.username,
     });
@@ -42,10 +48,7 @@ export default [
 
     return res.json({
       status: 'ok',
-      data: {
-        email: req.body.email,
-        username: req.body.username,
-      },
+      data: getUserPublicData(model),
     });
   },
 ];

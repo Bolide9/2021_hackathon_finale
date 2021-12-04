@@ -2,11 +2,15 @@ import mongoose from 'mongoose';
 import { validateEmail } from '../../utils/validation';
 import type { Model, HydratedDocument } from 'mongoose';
 
-interface User {
+export interface User {
   email: string;
   username: string;
   password: string;
+  qnaScore: number;
+  fio: string;
 }
+
+export type UserPublicData = Omit<User, 'password'>;
 
 interface UserModel extends Model<User> {
   findByEmail(email: string): Promise<HydratedDocument<User> | null>;
@@ -14,7 +18,26 @@ interface UserModel extends Model<User> {
   findByNameOrEmail(nameOrEmail: string): Promise<HydratedDocument<User> | null>;
 }
 
+export const userPublicFields: (keyof UserPublicData)[] = [
+  'fio',
+  'email',
+  'username',
+  'qnaScore',
+];
+
 const schema = new mongoose.Schema<User, UserModel>({
+  qnaScore: {
+    type: Number,
+    default: 0,
+  },
+  fio: {
+    type: String,
+    trim: true,
+    required: true,
+    validate: {
+      validator: (value = '') => value.length > 3 && value.length < 100,
+    },
+  },
   username: {
     type: String,
     trim: true,
@@ -61,8 +84,13 @@ schema.statics.findByNameOrEmail = async function findByNameOrEmail(nameOrEmail:
   } catch (e) {
     console.warn(e);
   }
-
   return null;
 };
 
-export default mongoose.model<User, UserModel>('user', schema);
+export default ((): UserModel => {
+  try {
+    return mongoose.model<User, UserModel>('user');
+  } catch {
+    return mongoose.model<User, UserModel>('user', schema);
+  }
+})();

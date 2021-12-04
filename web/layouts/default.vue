@@ -6,12 +6,14 @@
     </div>
     <Modal @click-outside="closeAuth">
       <div v-if="isAuthVisible" class="auth-modal">
-        <button class="auth-modal__close" @click="closeAuth" />
+        <ModalClose @click="closeAuth" />
         <Auth @close="closeAuth" />
       </div>
     </Modal>
     <div class="container">
-      <Footer />
+      <div class="footer">
+        <Footer />
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +21,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Modal from '~/components/Modal.vue';
+import ModalClose from '~/components/ModalClose.vue';
 import Header from '~/components/Header.vue';
 import Footer from '~/components/Footer.vue';
 import Auth from '~/components/Auth/index.vue';
@@ -44,6 +47,7 @@ export default Vue.extend({
     Modal,
     Header,
     Footer,
+    ModalClose,
   },
 });
 </script>
@@ -96,6 +100,9 @@ button {
   margin: 0 auto;
 }
 
+.t-center {
+  text-align: center;
+}
 .d-none {
   display: none;
 }
@@ -161,41 +168,13 @@ button {
     width: 100%;
   }
 }
+.footer {
+  margin-top: 40px;
+}
 .auth-modal {
   position: relative;
-  padding: 96px 32px 60px;
-  width: 464px;
-  max-width: 100%;
-  border-radius: 24px;
-  background-color: #0F1115;
-  border: 1px solid #2C303A;
-
-  &__close {
-    position: absolute;
-    top: 20px;
-    right: 32px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 2px solid #2C303A;
-
-    &:before, &:after {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 2px;
-      background-color: #fff;
-      left: 8px;
-    }
-
-    &:before {
-      transform: rotate(45deg);
-    }
-
-    &:after {
-      transform: rotate(135deg);
-    }
-  }
+  padding-top: 36px;
+  width: 100%;
+  max-width: 464px;
 }
 </style>

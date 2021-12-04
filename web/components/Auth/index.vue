@@ -26,6 +26,7 @@ import { useUser } from '~/store/user';
 import Title from '~/components/Title.vue';
 import Login from './Login.vue';
 import Register from './Register.vue';
+import type { UserPublicData } from '~/server/models/user';
 
 export default Vue.extend({
   data: () => ({
@@ -58,7 +59,7 @@ export default Vue.extend({
         const { status, errors, data: rData } = await this.$axios.$post<{
           status: 'ok' | 'error';
           errors?: Object;
-          data?: { username: string; email: string; }
+          data?: UserPublicData;
         }>(`/api/${this.isLogin ? 'login' : 'register'}`, data);
         if (status === 'ok' && rData) {
           this.authorize(rData);
@@ -130,7 +131,6 @@ export default Vue.extend({
     color: #37ABFF;
     background-color: transparent;
     padding: 0;
-    margin: 0;
     margin-left: 8px;
   }
 }

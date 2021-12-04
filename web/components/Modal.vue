@@ -2,7 +2,7 @@
   <Transition name="fade">
     <div v-if="$slots.default" class="modal" @click="$emit('click-outside')">
       <div class="content">
-        <div @click.stop>
+        <div class="inner" @click.stop>
           <slot />
         </div>
       </div>
@@ -22,11 +22,19 @@
   overflow: auto;
 }
 .content {
+  position: relative;
   display: flex;
   padding: 20px;
   align-items: center;
   justify-content: center;
   min-height: 100%;
+}
+.inner {
+  position: relative;
+  border-radius: 24px;
+  background-color: #0F1115;
+  border: 1px solid #2C303A;
+  padding: 60px 32px;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s;

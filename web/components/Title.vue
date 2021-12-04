@@ -1,5 +1,5 @@
 <template>
-  <component :is="h1 ? 'h1' : 'div'" class="title-c">
+  <component :is="h1 ? 'h1' : 'div'" class="title-c" :class="{ 'title-c_small': small }">
     <slot />
   </component>
 </template>
@@ -10,6 +10,10 @@ import Vue from 'vue';
 export default Vue.extend({
   props: {
     h1: {
+      type: Boolean,
+      default: false,
+    },
+    small: {
       type: Boolean,
       default: false,
     },
@@ -30,6 +34,14 @@ h1.title-c {
   font-size: 40px;
   line-height: 56px;
   font-weight: 700;
+
+  &_small {
+    @include media-breakpoint-up(md) {
+      font-size: 32px;
+      line-height: 44px;
+      font-weight: 600;
+    }
+  }
 
   @include media-breakpoint-down(sm) {
     font-size: 32px;

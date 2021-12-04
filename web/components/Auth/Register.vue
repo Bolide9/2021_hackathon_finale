@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Form :errors="errors" :fields="fields" :is-loading="isLoading" @submit="$emit('submit', $event)">
+    <Form
+      :errors="errors"
+      :fields="fields"
+      :is-loading="isLoading"
+      :eula-checked="eulaChecked"
+      @submit="$emit('submit', $event)"
+    >
       <template #eula>
         <div class="reg-eula">
           <Checkbox v-model="eulaChecked" class="reg-eula__cb" />
@@ -31,6 +37,9 @@ const FIELDS = [{
 }, {
   name: 'username',
   placeholder: 'Логин',
+}, {
+  name: 'fio',
+  placeholder: 'Имя и фамилия',
 }, {
   type: 'password',
   name: 'password',
